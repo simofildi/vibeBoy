@@ -1,0 +1,517 @@
+:root {
+  --focus: var(--vscode-focusBorder, #007fd4);
+  --bg-color: transparent;
+  --panel-gap: 1.5rem;
+
+  --btn-primary-bg: var(--vscode-button-background, #0e639c);
+  --btn-primary-hover: var(--vscode-button-hoverBackground, #1177bb);
+  --btn-primary-fg: var(--vscode-button-foreground, #ffffff);
+
+  --btn-secondary-bg: var(--vscode-button-secondaryBackground, #3a3d41);
+  --btn-secondary-hover: var(--vscode-button-secondaryHoverBackground, #45494e);
+  --btn-secondary-fg: var(--vscode-button-secondaryForeground, #ffffff);
+
+  --menu-bg: var(--vscode-menu-background, #252526);
+  --menu-fg: var(--vscode-menu-foreground, #cccccc);
+  --menu-border: var(--vscode-menu-border, #454545);
+  --menu-selection-bg: var(--vscode-menu-selectionBackground, #04395e);
+  --menu-selection-fg: var(--vscode-menu-selectionForeground, #ffffff);
+  --menu-separator: var(--vscode-menu-separatorBackground, #454545);
+
+  --screen-border: var(--vscode-widget-border, #454545);
+  --screen-bg: var(--vscode-editor-background, #1e1e1e);
+  --screen-shadow: var(--vscode-widget-shadow, rgba(0, 0, 0, 0.36));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-width: 330px;
+  background: var(--bg-color);
+  color: var(--vscode-foreground, #cccccc);
+  font-family: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+  overflow-x: auto;
+  user-select: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.emulator-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 1rem;
+  gap: var(--panel-gap);
+  min-width: 310px;
+  width: 100%;
+}
+
+/* Header & Settings */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -0.5rem;
+}
+
+.panel-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--vscode-foreground);
+  opacity: 0.9;
+}
+
+
+/* Primary Button (for Welcome Screen) */
+.primary-btn {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 100ms;
+}
+
+.primary-btn:hover {
+  background: var(--btn-primary-hover);
+}
+
+/* Screen Layout */
+.screen-shell {
+  position: relative;
+  background: var(--screen-bg);
+  border: 1px solid var(--screen-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--screen-shadow);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  /* Optional bezel effect */
+}
+
+#screen {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 160 / 144;
+  background: #000;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border-radius: 4px;
+}
+
+.welcome-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  z-index: 10;
+  text-align: center;
+  padding: 1rem;
+}
+
+.welcome-overlay.hidden {
+  display: none;
+}
+
+.welcome-overlay h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.welcome-overlay p {
+  margin: 0 0 1.25rem 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Controls Container */
+.control-stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--panel-gap);
+}
+
+.controls-shell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Base generic pad class */
+.pad {
+  appearance: none;
+  cursor: pointer;
+  touch-action: none;
+  transition: transform 100ms cubic-bezier(0.2, 0, 0, 1), background-color 100ms ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pad:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.pad:active,
+.pad.is-pressed {
+  transform: scale(0.92);
+}
+
+/* D-Pad */
+.dpad-zone {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dpad {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.dpad-arm,
+.dpad-center {
+  position: absolute;
+  display: block;
+  background: #606368;
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  transition: background-color 100ms ease;
+}
+
+.dpad-arm:hover {
+  background: #76787e;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.dpad-arm.is-pressed,
+.dpad-center.is-pressed {
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+}
+
+/* D-pad positioning — 120px container, 36px arm width, 42px arm length: 42+36+42=120 */
+.dpad-up,
+.dpad-down {
+  left: 42px;
+  width: 36px;
+  height: 42px;
+}
+
+.dpad-up {
+  top: 0;
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+}
+
+.dpad-down {
+  top: 78px;
+  border-radius: 0 0 4px 4px;
+  border-top: none;
+}
+
+.dpad-up.is-pressed {
+  background: var(--btn-primary-bg);
+}
+
+.dpad-down.is-pressed {
+  background: var(--btn-primary-bg);
+}
+
+.dpad-left,
+.dpad-right {
+  top: 42px;
+  width: 42px;
+  height: 36px;
+}
+
+.dpad-left {
+  left: 0;
+  border-radius: 4px 0 0 4px;
+  border-right: none;
+}
+
+.dpad-right {
+  left: 78px;
+  border-radius: 0 4px 4px 0;
+  border-left: none;
+}
+
+.dpad-left.is-pressed {
+  background: var(--btn-primary-bg);
+}
+
+.dpad-right.is-pressed {
+  background: var(--btn-primary-bg);
+}
+
+.dpad-center {
+  top: 42px;
+  left: 42px;
+  width: 36px;
+  height: 36px;
+  border-radius: 0;
+  border: none;
+}
+
+.dpad-center.is-pressed {
+  background: var(--btn-primary-bg);
+}
+
+/* A/B Buttons */
+.button-zone {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ab-cluster {
+  position: relative;
+  width: 130px;
+  height: 80px;
+}
+
+.action-btn {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover {
+  background: var(--btn-primary-hover);
+}
+
+.action-btn.is-pressed {
+  background: var(--btn-primary-hover);
+  opacity: 0.9;
+}
+
+.action-b {
+  left: 0;
+  bottom: 0;
+}
+
+.action-a {
+  right: 0;
+  top: 0;
+}
+
+/* System Row (Start / Select) */
+.system-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.system-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  /* Pill shape */
+  background: var(--btn-secondary-bg, #4a4a50);
+  color: var(--btn-secondary-fg, #ffffff);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-width: 80px;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+}
+
+.system-btn:hover {
+  background: var(--btn-secondary-hover);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.system-btn.is-pressed {
+  background: var(--btn-secondary-hover);
+  border-color: var(--btn-primary-bg);
+}
+
+/* Utility Buttons Row (Pause / Stop / Audio / Settings) */
+.utility-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: -0.5rem;
+}
+
+.utility-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  padding: 8px 4px;
+  border-radius: 2px;
+  background: var(--btn-secondary-bg, #3a3d41);
+  color: var(--btn-secondary-fg, #ffffff);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+  line-height: 1;
+}
+
+.utility-btn svg {
+  flex-shrink: 0;
+}
+
+.utility-btn:hover {
+  background: var(--btn-secondary-hover, #45494e);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.utility-btn:active {
+  transform: scale(0.95);
+}
+
+.utility-btn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.utility-btn--danger {
+  color: #f48771;
+  border-color: rgba(244, 135, 113, 0.25);
+}
+
+.utility-btn--danger:hover {
+  background: rgba(244, 135, 113, 0.15);
+  border-color: rgba(244, 135, 113, 0.5);
+}
+
+.utility-btn--muted {
+  opacity: 0.55;
+}
+
+.utility-btn--close {
+  opacity: 0.7;
+}
+
+.utility-btn--close:hover {
+  opacity: 1;
+  background: var(--btn-secondary-hover, #45494e);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Keybindings Overlay Specific */
+.keybindings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  width: 100%;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.keybinding-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--btn-secondary-bg);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.key-select-btn {
+  background: var(--screen-bg);
+  border: 1px solid var(--screen-border);
+  padding: 4px 8px;
+  border-radius: 2px;
+  min-width: 80px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.key-select-btn:hover {
+  border-color: var(--focus);
+  background: var(--btn-secondary-hover);
+}
+
+.key-select-btn.listening {
+  background: var(--btn-primary-bg);
+  color: #fff;
+  border-color: var(--btn-primary-bg);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* End of stylesheet */
