@@ -1,0 +1,126 @@
+{
+  "name": "vibeboy",
+  "displayName": "vibeBoy",
+  "description": "Waiting for the AI to finish your code? Play a classic game in your IDE. The only extension you need while the other extensions write your code.",
+  "version": "0.0.1",
+  "publisher": "simonefildi",
+  "license": "GPL-3.0",
+  "icon": "media/vibeBoy-logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simofildi/vibeBoy.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vibeBoy.focusView",
+        "title": "VibeBoy: Focus Game Boy"
+      },
+      {
+        "command": "vibeBoy.openMenu",
+        "title": "Emulator Settings",
+        "category": "VibeBoy"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "vibeBoy.openMenu",
+          "when": "view == vibeBoy.gameBoyView",
+          "group": "secondary"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vibeBoy",
+          "title": "vibeBoy",
+          "icon": "media/sidebar-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "vibeBoy": [
+        {
+          "id": "vibeBoy.gameBoyView",
+          "name": "vibeBoy",
+          "type": "webview",
+          "icon": "media/sidebar-icon.svg"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "VibeBoy",
+      "properties": {
+        "vibeBoy.keybindings.up": {
+          "type": "string",
+          "default": "ArrowUp",
+          "description": "Key code for 'Up' (e.g., 'ArrowUp', 'KeyW')"
+        },
+        "vibeBoy.keybindings.down": {
+          "type": "string",
+          "default": "ArrowDown",
+          "description": "Key code for 'Down' (e.g., 'ArrowDown', 'KeyS')"
+        },
+        "vibeBoy.keybindings.left": {
+          "type": "string",
+          "default": "ArrowLeft",
+          "description": "Key code for 'Left' (e.g., 'ArrowLeft', 'KeyA')"
+        },
+        "vibeBoy.keybindings.right": {
+          "type": "string",
+          "default": "ArrowRight",
+          "description": "Key code for 'Right' (e.g., 'ArrowRight', 'KeyD')"
+        },
+        "vibeBoy.keybindings.a": {
+          "type": "string",
+          "default": "KeyX",
+          "description": "Key code for 'A' (e.g., 'KeyX', 'KeyL')"
+        },
+        "vibeBoy.keybindings.b": {
+          "type": "string",
+          "default": "KeyZ",
+          "description": "Key code for 'B' (e.g., 'KeyZ', 'KeyK')"
+        },
+        "vibeBoy.keybindings.start": {
+          "type": "string",
+          "default": "Enter",
+          "description": "Key code for 'Start' (e.g., 'Enter')"
+        },
+        "vibeBoy.keybindings.select": {
+          "type": "string",
+          "default": "ShiftLeft",
+          "description": "Key code for 'Select' (e.g., 'ShiftLeft', 'Space')"
+        },
+        "vibeBoy.pauseOnHidden": {
+          "type": "boolean",
+          "default": false,
+          "description": "Pause the emulator when the sidebar is hidden. If false, it will only mute the audio."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "prepare:wasmboy": "node scripts/prepare-wasmboy.js",
+    "compile": "npm run prepare:wasmboy && tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "wasmboy": "^0.7.1"
+  }
+}
