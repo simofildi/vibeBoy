@@ -3,10 +3,10 @@
 </p>
 <p align="center">
   <a href="https://marketplace.visualstudio.com/items?itemName=simofildi.vibeboy">
-    <img src="https://img.shields.io/visual-studio-marketplace/v/simofildi.vibeboy?color=blue&label=vibeBoy" alt="VS Code Marketplace Version">
+    <img src="https://vsmarketplacebadges.dev/version/simofildi.vibeboy.svg?color=blue" alt="VS Code Marketplace Version">
   </a>
   <a href="https://marketplace.visualstudio.com/items?itemName=simofildi.vibeboy">
-    <img src="https://img.shields.io/visual-studio-marketplace/d/simofildi.vibeboy?color=blue&label=Downloads" alt="VS Code Marketplace Downloads">
+    <img src="https://vsmarketplacebadges.dev/installs-short/simofildi.vibeboy.svg?color=blue" alt="VS Code Marketplace Downloads">
   </a>
   <img src="https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white" alt="TypeScript">
   <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3">
